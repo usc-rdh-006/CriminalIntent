@@ -12,6 +12,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private String mSuspect;
 
 
     //crime constructor, returns a crime with an appropriate UUID
@@ -60,6 +61,18 @@ public class Crime {
     public void setSolved(boolean solved) {
 
         mSolved = solved;
+    }
+    public String getSuspect() {
+        return mSuspect;
+    }
+
+    public void setSuspect(String suspect) {
+        mSuspect = suspect;
+    }
+
+    public String getPhotoFilename() {
+
+        return "IMG_" + getId().toString() + ".jpg";
     }
 }
 //At this point, you have created the model layer

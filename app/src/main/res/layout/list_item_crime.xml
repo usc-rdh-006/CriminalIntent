@@ -8,10 +8,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="crime_title"/>
-    <TextView style="?android:listSeparatorTextViewStyle"
+
+    <TextView
         android:id="@id/crime_date"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="crime_date"/>
+        android:text="crime_date" />
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -84,6 +85,11 @@ public class CrimeLab {
         }
     }
 
+    public File getPhotoFile(Crime crime) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, crime.getPhotoFilename());
+    }
+
     //Can insert crimes, so the code that adds Crime to CrimeLab when you press the New Crime action item now works
     //Can successfully query the database, CrimePagerActivity can see all the Crimes in CrimeLab
     //CrimeLab.getCrime(UUID) works so each CrimeFragment displayed in CrimePagerActivity is showing the real Crime
@@ -127,6 +133,7 @@ public class CrimeLab {
         values.put(CrimeDBschema.CrimeTable.Cols.TITLE, crime.getTitle());
         values.put(CrimeDBschema.CrimeTable.Cols.DATE, crime.getDate().getTime());
         values.put(CrimeDBschema.CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
+        values.put(CrimeDBschema.CrimeTable.Cols.SUSPECT, crime.getSuspect());
         return values;
     }
 }
