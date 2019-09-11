@@ -13,42 +13,52 @@ public class Crime {
     private Date mDate;
     private boolean mSolved;
 
-    public Crime() {
-        mId = UUID.randomUUID();
-        mDate = new Date();
-    }
 
+    //crime constructor, returns a crime with an appropriate UUID
+    public Crime() {
+        this(UUID.randomUUID());
+    }
+    public Crime(UUID id) {
+        mId = id;
+        mDate = new Date(); }
 //Initializing the Date variable using the default Date constructor sets mDate to the current date.
 // This will be the default date for a crime.
 
     //get and set
 
     public UUID getId() {
+
         return mId;
     }
 
     public String getTitle() {
+
         return mTitle;
     }
 
     public void setTitle(String title) {
+
         mTitle = title;
     }
 
 
     public Date getDate() {
+
         return mDate;
     }
 
     public void setDate(Date date) {
+
         mDate = date;
     }
 
     public boolean isSolved() {
+
         return mSolved;
     }
 
     public void setSolved(boolean solved) {
+
         mSolved = solved;
     }
 }
