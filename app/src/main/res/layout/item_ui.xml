@@ -41,7 +41,29 @@
     <Button android:id="@+id/crime_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send Crime Report"/>
+        android:text="Share"/>
+    <Button android:id= "@+id/delete_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete"/>
+
+
+    <LinearLayout
+        android:id="@+id/LinearLayout02"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true">
+        <ImageButton android:id= "@+id/map_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@android:drawable/ic_menu_mapmode"/>
+        <TextView
+            android:id="@+id/coordinates"
+            android:layout_width="337dp"
+            android:layout_height="40dp"
+            android:text="@string/coordinates"/>
+    </LinearLayout>
+
 
 
 </LinearLayout>

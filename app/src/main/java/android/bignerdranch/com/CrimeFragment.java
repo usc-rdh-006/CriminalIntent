@@ -14,6 +14,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,10 +25,14 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 
 import java.io.File;
 import java.util.Date;
@@ -47,10 +54,13 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
-
+    private Button mDeleteButton;
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_PHOTO = 2;
     private static final int REQUEST_CONTACT = 1;
+    private ImageButton mMapButton;
+    private TextView mCoordinates;
+    private GoogleApiClient mClient;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -60,13 +70,32 @@ public class CrimeFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID) getArguments().getSerializable(ARG_CRIME_ID);
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeId);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
-    }
+
+        mClient = new GoogleApiClient.Builder(getActivity())
+            .addApi(LocationServices.API)
+                .build();
+
+
+        }
+
+        @Override
+        public void onStart() {
+        super.onStart();
+        mClient.connect();
+        }
+
+        @Override
+        public void onStop() {
+        super.onStop();
+        mClient.disconnect();
+        }
 
 
     //override onpause to update crimelabs copy of a crime
@@ -80,7 +109,7 @@ public class CrimeFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_crime, container, false);
+        View v = inflater.inflate(R.layout.item_ui, container, false);
 
         mDateButton = (Button) v.findViewById(R.id.crime_date);
         updateDate();
@@ -126,6 +155,30 @@ public class CrimeFragment extends Fragment {
                 // This one too
             }
         });
+
+
+
+
+
+
+        mCoordinates = (TextView) v.findViewById(R.id.coordinates);
+        mMapButton = (ImageButton) v.findViewById(R.id.map_button);
+
+
+
+
+        mDeleteButton = (Button) v.findViewById(R.id.delete_button);
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CrimeLab.get(getActivity()).updateCrime(mCrime);
+                getActivity().finish();
+            }
+        });
+
+
+
+
         mReportButton = (Button) v.findViewById(R.id.crime_report);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -141,6 +194,10 @@ public class CrimeFragment extends Fragment {
         final Intent pickContact = new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI);
 
+
+
+
+
         mSuspectButton = (Button) v.findViewById(R.id.crime_suspect);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) { startActivityForResult(pickContact, REQUEST_CONTACT);
@@ -154,6 +211,11 @@ public class CrimeFragment extends Fragment {
                 PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspectButton.setEnabled(false);
         }
+
+
+
+
+
 
         mPhotoButton = (ImageButton) v.findViewById(R.id.crime_camera);
         final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -181,7 +243,12 @@ public class CrimeFragment extends Fragment {
         mPhotoView = (ImageView) v.findViewById(R.id.crime_photo);
         updatePhotoView();
         return v;
+
+
     }
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -252,4 +319,26 @@ public class CrimeFragment extends Fragment {
             mPhotoView.setImageBitmap(bitmap);
         }
     }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_crime_list, menu);
+        MenuItem deleteItem = menu.findItem(R.id.delete_button);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.delete_button:
+                CrimeLab.get(getActivity()).deleteCrime(mCrime);
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+
 }

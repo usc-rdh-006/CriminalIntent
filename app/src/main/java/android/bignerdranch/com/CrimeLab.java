@@ -27,6 +27,7 @@ public class CrimeLab {
         return sCrimeLab;
     }
 
+
     private CrimeLab(Context context) {
         mContext = context.getApplicationContext();
         mDatabase = new CrimeBaseHelper(mContext)
@@ -34,6 +35,7 @@ public class CrimeLab {
 
 
     }
+
 
     //this (addCrime) fills out crime with new implementation (database)
     //mdatabase insert has two arguments (plus a nullcolumnHack)
@@ -45,6 +47,15 @@ public class CrimeLab {
                 null, values);
 
     }
+    public int deleteCrime(Crime crime) {
+        String uuidString = crime.getId().toString();
+        return mDatabase.delete(
+                CrimeDBschema.CrimeTable.NAME,
+                CrimeDBschema.CrimeTable.Cols.UUID + " = ?",
+                new String[] { uuidString }
+        );
+    }
+
 
 
 
@@ -136,4 +147,5 @@ public class CrimeLab {
         values.put(CrimeDBschema.CrimeTable.Cols.SUSPECT, crime.getSuspect());
         return values;
     }
+
 }

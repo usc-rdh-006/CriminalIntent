@@ -13,8 +13,10 @@ public class Crime {
     private Date mDate;
     private boolean mSolved;
     private String mSuspect;
+    private double mLatitude;
+    private double mLongditude;
 
-
+//DECLARATIONS :
     //crime constructor, returns a crime with an appropriate UUID
     public Crime() {
         this(UUID.randomUUID());
@@ -73,6 +75,22 @@ public class Crime {
     public String getPhotoFilename() {
 
         return "IMG_" + getId().toString() + ".jpg";
+    }
+    public double getLatitude() {
+
+        return mLatitude;
+    }
+    public void setLatitude(double lat) {
+
+        mLatitude = lat;
+    }
+    public double getLongditude() {
+        return
+                mLongditude;
+    }
+    public void setLongditude(double lon) {
+
+        mLongditude = lon;
     }
 }
 //At this point, you have created the model layer

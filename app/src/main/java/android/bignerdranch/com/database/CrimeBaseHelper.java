@@ -38,6 +38,7 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
+
 }
 //14.7 in textbook
 //go from gutting
