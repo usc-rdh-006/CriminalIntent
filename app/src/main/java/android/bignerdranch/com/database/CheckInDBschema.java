@@ -1,6 +1,6 @@
 package android.bignerdranch.com.database;
 
-public class CrimeDBschema {
+public class CheckInDBschema {
     public static final class CrimeTable {
         public static final String NAME = "CheckIns";
 

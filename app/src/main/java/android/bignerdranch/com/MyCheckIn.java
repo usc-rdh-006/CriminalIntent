@@ -7,7 +7,7 @@ import java.util.UUID;
 //UUID is a Java utility class included in the Android framework. It provides an easy way to generate universally unique ID values.
 // In the constructor you generate a random unique ID by calling UUID.randomUUID().
 
-public class Crime {
+public class MyCheckIn {
     private UUID mId;
     private String mTitle;
     private Date mDate;
@@ -18,10 +18,10 @@ public class Crime {
 
 //DECLARATIONS :
     //crime constructor, returns a crime with an appropriate UUID
-    public Crime() {
+    public MyCheckIn() {
         this(UUID.randomUUID());
     }
-    public Crime(UUID id) {
+    public MyCheckIn(UUID id) {
         mId = id;
         mDate = new Date(); }
 //Initializing the Date variable using the default Date constructor sets mDate to the current date.
